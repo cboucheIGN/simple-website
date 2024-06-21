@@ -45,10 +45,12 @@ L.geoJSON(GEOPHOTO_DATA, {
 
 // console.log(photos, positions);
 
+let pointClicked;
 
 map.on('click', (event) => {
+
   // solution
-  const pointClicked = [event.latlng.lat, event.latlng.lng];
+  pointClicked = [event.latlng.lat, event.latlng.lng];
 
   L.circle(pointClicked, {
     color: 'red',
@@ -57,10 +59,13 @@ map.on('click', (event) => {
     radius: 10
   }).addTo(map);
   L.marker(selectedPosition).addTo(map);
+
   const line = L.polyline([pointClicked, selectedPosition], {
     color: 'red',
   }).addTo(map);
-  map.fitBounds(line.getBounds());
+  // map.fitBounds(line.getBounds());
+
+  map.flyTo(selectedPosition, 16);
 
   // compute point
   buildScore(pointClicked, selectedPosition);
