@@ -49,12 +49,12 @@ L.geoJSON(GEOPHOTO_DATA, {
 map.on('click', (event) => {
   // solution
   const pointClicked = [event.latlng.lat, event.latlng.lng];
-  console.log(selectedPosition, pointClicked, event);
+
   L.circle(pointClicked, {
     color: 'red',
     fillColor: '#f03',
     fillOpacity: 0.5,
-    radius: 500
+    radius: 10
   }).addTo(map);
   L.marker(selectedPosition).addTo(map);
   const line = L.polyline([pointClicked, selectedPosition], {
@@ -63,16 +63,29 @@ map.on('click', (event) => {
   map.fitBounds(line.getBounds());
 
   // compute point
+  buildScore(pointClicked, selectedPosition);
 
   // refresh image
   newTirage();
 });
 
+const buildScore = (pointA, pointB) => {
+  let distance = map.distance(pointA, pointB);
+  distance = Math.round(distance);
+
+  const allImages = document.getElementById('photos');
+  const score = document.createElement('p');
+  score.innerText = new Intl.NumberFormat('fr-FR').format(distance) + 'm';
+  allImages.firstChild.appendChild(score);
+
+  console.log('buildScore', distance, pointA, pointB);
+}
+
 
 
 let tirage, selectedPhoto, selectedPosition;
 
-function newTirage() {
+const newTirage = () => {
   tirage = Math.random() * (photos.length - 1)
   tirage = Math.round(tirage);
 
@@ -83,11 +96,13 @@ function newTirage() {
   console.log('newTirage', selectedPhoto, selectedPosition);
 
   // add photo
+  const imageBlock = document.createElement('div');
   const image = document.createElement('img');
   image.src = selectedPhoto;
-  image.classList.add('photo-choisie');
+  imageBlock.appendChild(image);
+  imageBlock.classList.add('photo-choisie');
   const allImages = document.getElementById('photos');
-  allImages.insertBefore(image, allImages.firstChild);
+  allImages.insertBefore(imageBlock, allImages.firstChild);
 }
 
 newTirage();

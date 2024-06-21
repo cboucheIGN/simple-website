@@ -26,13 +26,29 @@ h1 {
 
 .photo-choisie {
   /* max-width: 300px; */
-  max-height: 400px;
+  width: 400px;
+  height: 400px;
   display: block;
   margin: 1.0em;
   border-radius: 8px;
 
-  mask-image: linear-gradient(rgb(0 0 0 / 100%), transparent);
+  /* mask-image: linear-gradient(rgb(0 0 0 / 100%), transparent); */
   mask-image: linear-gradient(rgb(0 0 0 / 100%), rgba(0, 0, 0, 0.558));
-  /* mask-image: linear-gradient(#e66465, #9198e5); */
+  position: relative;
 }
 
+.photo-choisie img {
+  max-height: 300px;
+}
+
+.photo-choisie p {
+  position: absolute;
+  bottom: 2.0em;
+  width: 100%;
+  height: 2.0em;
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.233);
+  line-height: 2.0em;
+  font-size: 2.0em;
+}
